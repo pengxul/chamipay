@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pengxul\Chamipay\Plugin\Wechat\Fund\Transfer;
+namespace Pengxul\Chamipay\Plugin\Wechat\Fund\MchTransfer;
 
 use Pengxul\Chamipay\Exception\ContainerException;
 use Pengxul\Chamipay\Exception\InvalidConfigException;

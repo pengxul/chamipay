@@ -7,6 +7,7 @@ namespace Pengxul\Chamipay\Plugin\Wechat\Shortcut;
 use Pengxul\Chamipay\Contract\ShortcutInterface;
 use Pengxul\Chamipay\Exception\Exception;
 use Pengxul\Chamipay\Exception\InvalidParamsException;
+use Pengxul\Chamipay\Plugin\Wechat\Fund\Transfer\QueryMchTransferPlugin;
 use Pengxul\Chamipay\Plugin\Wechat\Pay\Common\QueryPlugin;
 use Pengxul\Chamipay\Plugin\Wechat\Pay\Common\QueryRefundPlugin;
 use Pengxul\Supports\Str;
@@ -35,6 +36,13 @@ class QueryShortcut implements ShortcutInterface
     {
         return [
             QueryPlugin::class,
+        ];
+    }
+
+    protected function mchTransferPlugins(): array
+    {
+        return [
+            QueryMchTransferPlugin::class,
         ];
     }
 

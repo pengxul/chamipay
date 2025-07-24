@@ -6,6 +6,8 @@ namespace Pengxul\Chamipay\Provider;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use Pengxul\Chamipay\Event\MethodCalled;
+use Pengxul\Chamipay\Rocket;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,6 +35,8 @@ use Pengxul\Supports\Str;
  * @method Collection papay(array $order)         支付时签约（委托代扣）
  * @method Collection papayApply(array $order)    申请代扣（委托代扣）
  * @method Collection papayContract(array $order) 申请代扣（委托代扣）
+ * @method Collection query(array $order) 查询
+ *
  */
 class Wechat extends AbstractProvider
 {
@@ -55,8 +59,8 @@ class Wechat extends AbstractProvider
      */
     public function __call(string $shortcut, array $params)
     {
-        $plugin = '\\Pengxul\\Pay\\Plugin\\Wechat\\Shortcut\\'.
-            Str::studly($shortcut).'Shortcut';
+        $plugin = '\\Pengxul\\Pay\\Plugin\\Wechat\\Shortcut\\' .
+            Str::studly($shortcut) . 'Shortcut';
 
         return $this->call($plugin, ...$params);
     }
@@ -80,13 +84,17 @@ class Wechat extends AbstractProvider
     }
 
     /**
-     * @param array|string $order
-     *
+     * @param $order
+     * @return array|Collection|void
+     * @throws ContainerException
      * @throws InvalidParamsException
+     * @throws ServiceNotFoundException
      */
-    public function cancel($order): void
+    public function cancel($order)
     {
-        throw new InvalidParamsException(Exception::METHOD_NOT_SUPPORTED, 'Wechat does not support cancel api');
+        Event::dispatch(new MethodCalled('wechat', __METHOD__, $order, null));
+
+        return $this->__call('cancel', [$order]);
     }
 
     /**

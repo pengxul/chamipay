@@ -8,6 +8,9 @@ use Throwable;
 
 class Exception extends \Exception
 {
+    public const PARAMS_PLUGIN_ONLY_SUPPORT_NORMAL_MODE = 9220;
+    public const PARAMS_NECESSARY_PARAMS_MISSING = 9218;
+    public const PARAMS_SHORTCUT_ACTION_INVALID = 9210;
     public const UNKNOWN_ERROR = 9999;
 
     /**
